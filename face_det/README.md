@@ -1,3 +1,6 @@
-Some old and small projects
+# How to run
 
-* __facedet__: a simple face detection project, which supports different kinds of method(min-dist classifier, PCA, Fisherface, efficient Fisherface).
+1. Prepare the training corpus and test corpus
+2. Modify the source code according to the path of the corpus
+3. Run it in matlab
+

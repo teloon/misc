@@ -1,0 +1,6 @@
+atlassian-xml-cleaner-0.1.jar
+	去除不在XML标准中的UTF8字符，见：http://stackoverflow.com/questions/93655/stripping-invalid-xml-characters-in-java
+ClosureFinder.java
+	生成闭包，或Cluster
+Microsoft.VC90.CRT.manifest, msvcp90.dll, msvcr90.dll
+	py2exe所需要的文件：http://vvonderblog.appspot.com/2009/12/23/pyqt-google-translate-client.html

@@ -1,4 +1,5 @@
-#-*- coding:gbk -*-
+#!/usr/bin/env python
+#-*- coding:utf8 -*-
 import flickrapi, md5, ClientForm
 import urllib2, urllib
 from BeautifulSoup import BeautifulSoup

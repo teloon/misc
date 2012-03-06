@@ -172,9 +172,9 @@ if __name__ == '__main__':
     passwd = 'linux123'
     perms = 'write'
     filename = 'test.jpg'
-    title = '标题'.encode('utf8')
-    des = 'Avatar, the last air bender哈哈'.encode('utf8')
+    title = '鏍囬'.encode('utf8')
+    des = 'Avatar, the last air bender鍝堝搱'.encode('utf8')
     tags = 'catoon avatar'
     
     verify_flickr_account(uname, passwd)
-    send_flickr_imgs(uname, passwd, imgs='home.jpg', msg='标题'.encode('utf8'))
+    send_flickr_imgs(uname, passwd, imgs='home.jpg', msg='鏍囬'.encode('utf8'))

@@ -3,7 +3,6 @@
 
 # wy@2012.3
 
-from sgmllib import SGMLParser
 from pyquery import PyQuery as pq
 import urllib, re, os, sys, getopt
 

@@ -24,7 +24,7 @@ opener = build_opener(
 #                    fiddler_proxy,
                     )
 install_opener(opener)
-DEBUG = False
+DEBUG = True
 
 def upload_call(process, done):
     if done:
@@ -172,9 +172,9 @@ if __name__ == '__main__':
     passwd = 'linux123'
     perms = 'write'
     filename = 'test.jpg'
-    title = '标题'.encode('utf8')
-    des = 'Avatar, the last air bender哈哈'.encode('utf8')
-    tags = 'catoon avatar'
+    title = u'标题'.encode('utf8')
+    des = u'萌~'.encode('utf8')
+    tags = 'ppp'
     
     verify_flickr_account(uname, passwd)
-    send_flickr_imgs(uname, passwd, imgs='home.jpg', msg='标题'.encode('utf8'))
+    send_flickr_imgs(uname, passwd, imgs=filename, msg=u'标题'.encode('utf8'))

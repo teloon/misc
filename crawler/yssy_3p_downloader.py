@@ -36,6 +36,7 @@ class PageParser():
         self.page_start = pq_obj("tr :eq(1)")("td :eq(0)").text()
         print "## Parsing page %s, first record num:%s" % (self.page_url, self.page_start)
         for tr_obj in pq_obj("tr :gt(0)"):
+            # pyquery rocks!!
             rec = Record()
             tr_obj = pq(tr_obj)
             rec.num = tr_obj("td :eq(0)").text()

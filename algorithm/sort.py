@@ -96,7 +96,7 @@ def merge_sort(arr, reverse=False):
         grp_size *= 2
     return arr
 
-def quick_sort_recur(arr, start, end, oprt):
+def split(arr, start, end, oprt):
     if end-start==1: #be careful with the recursion base
         if not oprt(arr[start], arr[end]):
             arr[start], arr[end] = arr[end], arr[start]
@@ -105,23 +105,89 @@ def quick_sort_recur(arr, start, end, oprt):
         return
     #always choose arr[start] as the pivot (assume uniform distribution)
     pivot = arr[start]
-    low,high = start+1,end
-    while low<high:
-        while low<=end and oprt(arr[low], pivot): low += 1;
-        while high>=start+1 and not oprt(arr[high], pivot): high -= 1;
-        if low<high:
-            arr[low],arr[high] = arr[high],arr[low]
-    arr[start],arr[high] = arr[high],arr[start]
-    if high-1-start<end-low:
-        quick_sort_recur(arr, start, high-1, oprt)
-        quick_sort_recur(arr, low, end, oprt)
+    lo,hi = start+1,end
+    while lo<hi:
+        while lo<=end and oprt(arr[lo], pivot): lo += 1;
+        while hi>=start+1 and not oprt(arr[hi], pivot): hi -= 1;
+        if lo<hi:
+            arr[lo],arr[hi] = arr[hi],arr[lo]
+    arr[start],arr[hi] = arr[hi],arr[start]
+    # now pivot is in position: hi
+    if hi-start<end-hi: #short partition first --> reduce recursion depth
+        split(arr, start, hi-1, oprt)
+        split(arr, hi+1, end, oprt)
     else:
-        quick_sort_recur(arr, low, end, oprt)
-        quick_sort_recur(arr, start, high-1, oprt)
+        split(arr, hi+1, end, oprt)
+        split(arr, start, hi-1, oprt)
+
+def quick_sort_recur(arr, reverse=False):
+    oprt = operator.gt if reverse else operator.lt
+    split(arr, 0, len(arr)-1, oprt)
 
 def quick_sort(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
-    quick_sort_recur(arr, 0, len(arr)-1, oprt)
+    split_list = [(0, len(arr)-1),]
+    while split_list:
+        start,end = split_list.pop()
+        if end-start==1:
+            if not oprt(arr[start], arr[end]):
+                arr[start],arr[end] = arr[end],arr[start]
+            continue
+        if end-start<1:
+            continue
+        pivot = arr[start]
+        lo,hi = start+1,end
+        while lo<hi:
+            while lo<=end and oprt(arr[lo], pivot): lo+=1;
+            while hi>=start+1 and not oprt(arr[hi], pivot): hi-=1;
+            if lo<hi:
+                arr[lo], arr[hi] = arr[hi], arr[lo]
+        arr[start], arr[hi] = arr[hi], arr[start]
+        # now pivot is in position: hi
+        part1_size,part2_size = hi-start, end-hi
+        if part1_size<part2_size:
+            split_list.append((hi+1, end))
+            split_list.append((start, hi-1))
+        else:
+            split_list.append((start, hi-1))
+            split_list.append((hi+1, end))
+
+def sift_down(arr, sub_root, arr_end, oprt):
+    # sub_root: root index of the subtree that needs adjustment
+    # arr_end: end index of the array that needs adjustment
+    curr = sub_root
+    sub_root_val = arr[sub_root]
+    next_son = -1
+    while curr<=(arr_end-1)/2:
+        next_son = 2*curr+1
+        if 2*curr+2<=arr_end and not oprt(arr[2*curr+1], arr[2*curr+2]): # (2*curr+2) is the right son
+            next_son = 2*curr+2
+        if not oprt(sub_root_val, arr[next_son]):
+            arr[curr] = arr[next_son]
+            curr = next_son
+        else: break;
+    arr[curr] = sub_root_val
+
+def print_heap(arr):
+    print ">> Heap is built:"
+    depth = 0
+    for i,val in enumerate(arr):
+        print val,
+        if i==pow(2, depth+1)-2:
+            print ""
+            depth += 1
+    print ""
+
+def heap_sort(arr, reverse=False):
+    oprt = operator.gt if reverse else operator.lt
+    arr_len = len(arr)
+    # build head
+    for i in range(arr_len/2-1, -1, -1):
+        sift_down(arr, i, arr_len-1, oprt)
+    #print_heap(arr)
+    for i in range(arr_len-1): #the last two(root and left son) is reversely sorted
+        arr[0], arr[-1*i-1] = arr[-1*i-1], arr[0]
+        sift_down(arr, 0, arr_len-i-2, oprt)
 
 
 def print_sort(sort_func, arr, reverse=False):
@@ -142,4 +208,6 @@ if __name__=="__main__":
 #    print_sort(merge_sort, arr)
 #    print_sort(shell_sort, arr)
 #    print_sort(insertion_sort, arr)
-    print_sort(quick_sort, arr, reverse)
+#    print_sort(quick_sort_recur, arr, reverse)
+#    print_sort(quick_sort, arr, reverse)
+    print_sort(heap_sort, arr, reverse)

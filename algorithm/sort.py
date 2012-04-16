@@ -96,61 +96,44 @@ def merge_sort(arr, reverse=False):
         grp_size *= 2
     return arr
 
-def split(arr, start, end, oprt):
-    if end-start==1: #be careful with the recursion base
-        if not oprt(arr[start], arr[end]):
-            arr[start], arr[end] = arr[end], arr[start]
-        return
-    if end-start<1:
-        return
-    #always choose arr[start] as the pivot (assume uniform distribution)
-    pivot = arr[start]
-    lo,hi = start+1,end
-    while lo<hi:
-        while lo<=end and oprt(arr[lo], pivot): lo += 1;
-        while hi>=start+1 and not oprt(arr[hi], pivot): hi -= 1;
-        if lo<hi:
-            arr[lo],arr[hi] = arr[hi],arr[lo]
-    arr[start],arr[hi] = arr[hi],arr[start]
-    # now pivot is in position: hi
-    if hi-start<end-hi: #short partition first --> reduce recursion depth
-        split(arr, start, hi-1, oprt)
-        split(arr, hi+1, end, oprt)
-    else:
-        split(arr, hi+1, end, oprt)
-        split(arr, start, hi-1, oprt)
+def partition(arr, start, end, oprt):
+    pivot = arr[end]
+    i,j = start-1, start
+    while j<end:
+        if oprt(arr[j], pivot):
+            i += 1
+            arr[i],arr[j] = arr[j], arr[i]
+        j += 1
+    arr[i+1],arr[end] = arr[end], arr[i+1]
+    return i+1
+
+def do_qs(arr, start, end, oprt):
+    if(start<end):
+        p = partition(arr, start, end, oprt)
+        do_qs(arr, start, p-1, oprt)
+        do_qs(arr, p+1, end, oprt)
+
 
 def quick_sort_recur(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
-    split(arr, 0, len(arr)-1, oprt)
+    do_qs(arr, 0, len(arr)-1, oprt)
 
 def quick_sort(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
     split_list = [(0, len(arr)-1),]
     while split_list:
         start,end = split_list.pop()
-        if end-start==1:
-            if not oprt(arr[start], arr[end]):
-                arr[start],arr[end] = arr[end],arr[start]
-            continue
-        if end-start<1:
-            continue
-        pivot = arr[start]
-        lo,hi = start+1,end
-        while lo<hi:
-            while lo<=end and oprt(arr[lo], pivot): lo+=1;
-            while hi>=start+1 and not oprt(arr[hi], pivot): hi-=1;
-            if lo<hi:
-                arr[lo], arr[hi] = arr[hi], arr[lo]
-        arr[start], arr[hi] = arr[hi], arr[start]
-        # now pivot is in position: hi
-        part1_size,part2_size = hi-start, end-hi
-        if part1_size<part2_size:
-            split_list.append((hi+1, end))
-            split_list.append((start, hi-1))
-        else:
-            split_list.append((start, hi-1))
-            split_list.append((hi+1, end))
+        if(start<end):
+            i,j = start-1, start
+            pivot = arr[end]
+            while j<end:
+                if oprt(arr[j], arr[end]):
+                    i += 1
+                    arr[i],arr[j] = arr[j],arr[i]
+                j += 1
+            arr[i+1],arr[end] = arr[end],arr[i+1]
+            split_list.append((start, i))
+            split_list.append((i+2, end))
 
 def sift_down(arr, sub_root, arr_end, oprt):
     # sub_root: root index of the subtree that needs adjustment
@@ -160,9 +143,9 @@ def sift_down(arr, sub_root, arr_end, oprt):
     next_son = -1
     while curr<=(arr_end-1)/2:
         next_son = 2*curr+1
-        if 2*curr+2<=arr_end and not oprt(arr[2*curr+1], arr[2*curr+2]): # (2*curr+2) is the right son
+        if 2*curr+2<=arr_end and oprt(arr[2*curr+1], arr[2*curr+2]): # (2*curr+2) is the right son
             next_son = 2*curr+2
-        if not oprt(sub_root_val, arr[next_son]):
+        if oprt(sub_root_val, arr[next_son]):
             arr[curr] = arr[next_son]
             curr = next_son
         else: break;
@@ -179,6 +162,10 @@ def print_heap(arr):
     print ""
 
 def heap_sort(arr, reverse=False):
+    """
+    >>> heap_sort([3,4,2,1])
+    [1, 2, 3, 4]
+    """
     oprt = operator.gt if reverse else operator.lt
     arr_len = len(arr)
     # build head
@@ -188,6 +175,7 @@ def heap_sort(arr, reverse=False):
     for i in range(arr_len-1): #the last two(root and left son) is reversely sorted
         arr[0], arr[-1*i-1] = arr[-1*i-1], arr[0]
         sift_down(arr, 0, arr_len-i-2, oprt)
+    print arr
 
 
 def print_sort(sort_func, arr, reverse=False):
@@ -202,12 +190,14 @@ def print_sort(sort_func, arr, reverse=False):
 if __name__=="__main__":
     arr = random_arr(30)
 #    arr = [3,7,2,3,7,4,1,0,8,5,6]
-    reverse = True
+    reverse = False
 #    print_sort(bubble_sort, arr)
 #    print_sort(select_sort, arr)
 #    print_sort(merge_sort, arr)
 #    print_sort(shell_sort, arr)
 #    print_sort(insertion_sort, arr)
 #    print_sort(quick_sort_recur, arr, reverse)
-#    print_sort(quick_sort, arr, reverse)
-    print_sort(heap_sort, arr, reverse)
+    print_sort(quick_sort, arr, reverse)
+#    print_sort(heap_sort, arr, reverse)
+    import doctest
+    doctest.testmod()

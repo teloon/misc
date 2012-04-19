@@ -9,6 +9,22 @@ import operator, random, sys, time, copy
 
 random_arr = lambda size:[random.randint(0, 100) for i in xrange(size)]
 
+def print_res(sort_func):
+    def wrapper(*args):
+        print "###", sort_func.__name__, " ###"
+        print ">> Before:", arr
+        print ">> After:", sort_func(*args)
+    return wrapper
+
+def time_it(func):
+    def wrapper(*args):
+        st = time.time()
+        func(*args)
+        print ">> Time:", time.time()-st
+    return wrapper
+
+@time_it
+@print_res
 def bubble_sort(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
     arr_len = len(arr)
@@ -18,6 +34,8 @@ def bubble_sort(arr, reverse=False):
                 arr[i],arr[j] = arr[j],arr[i] #swap values in postion i and j
     return arr
 
+@time_it
+@print_res
 def select_sort(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
     arr_len = len(arr)
@@ -30,6 +48,8 @@ def select_sort(arr, reverse=False):
             arr[sel],arr[i] = arr[i],arr[sel]
     return arr
 
+@time_it
+@print_res
 def insertion_sort(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
     arr_len = len(arr)
@@ -45,7 +65,8 @@ def insertion_sort(arr, reverse=False):
         arr[j] = temp
     return arr
 
-
+@time_it
+@print_res
 def shell_sort(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
     arr_len = len(arr)
@@ -64,6 +85,38 @@ def shell_sort(arr, reverse=False):
         step = (step-1)/3
     return arr
 
+def merge(arr_l, arr_r, reverse):
+    oprt = [operator.lt, operator.gt][reverse]
+    temp_arr = []
+    i,j = 0,0
+    while i<len(arr_l) and j<len(arr_r):
+        if oprt(arr_l[i], arr_r[j]):
+            temp_arr.append(arr_l[i])
+            i += 1
+        else:
+            temp_arr.append(arr_r[j])
+            j += 1
+    temp_arr.extend(arr_l[i:])
+    temp_arr.extend(arr_r[j:])
+    return temp_arr
+
+def do_merge_sort_r(arr, reverse=False):
+    #do not operate in the original array
+    arr_len = len(arr)
+    if arr_len>1:
+        arr_l = do_merge_sort_r(arr[:arr_len/2], reverse)
+        arr_r = do_merge_sort_r(arr[arr_len/2:], reverse)
+        return merge(arr_l, arr_r, reverse)
+    else:
+        return arr 
+
+@time_it
+@print_res
+def merge_sort_r(arr, reverse=False):
+    return do_merge_sort_r(arr, reverse)
+
+@time_it
+@print_res
 def merge_sort(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
     grp_size = 1
@@ -75,21 +128,16 @@ def merge_sort(arr, reverse=False):
         del arr[:]
         while start_pos+grp_size<arr_len:
             grp_idx1, grp_idx2 = start_pos, start_pos+grp_size
-            while grp_idx1<start_pos+grp_size and grp_idx2<start_pos+2*grp_size and grp_idx2<arr_len:
-                if oprt(tmp_arr[grp_idx1], tmp_arr[grp_idx2]):
+            end = min(arr_len, start_pos+2*grp_size) #critical
+            for idx in range(start_pos, end):
+                if grp_idx2>=end or (grp_idx1<start_pos+grp_size and oprt(tmp_arr[grp_idx1], tmp_arr[grp_idx2])): #critical
                     arr.append(tmp_arr[grp_idx1])
                     grp_idx1 += 1
                 else:
                     arr.append(tmp_arr[grp_idx2])
                     grp_idx2 += 1
-            while grp_idx1<start_pos+grp_size:
-                arr.append(tmp_arr[grp_idx1])
-                grp_idx1 += 1
-            while grp_idx2<start_pos+2*grp_size and grp_idx2<arr_len:
-                arr.append(tmp_arr[grp_idx2])
-                grp_idx2 += 1
             start_pos += grp_size*2
-        while start_pos<arr_len: #tend to be ignored
+        while start_pos<arr_len: #critical
             arr.append(tmp_arr[start_pos])
             start_pos += 1
         del tmp_arr[:]
@@ -113,11 +161,14 @@ def do_qs(arr, start, end, oprt):
         do_qs(arr, start, p-1, oprt)
         do_qs(arr, p+1, end, oprt)
 
-
+@time_it
+@print_res
 def quick_sort_recur(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
     do_qs(arr, 0, len(arr)-1, oprt)
 
+@time_it
+@print_res
 def quick_sort(arr, reverse=False):
     oprt = operator.gt if reverse else operator.lt
     split_list = [(0, len(arr)-1),]
@@ -161,6 +212,8 @@ def print_heap(arr):
             depth += 1
     print ""
 
+@time_it
+@print_res
 def heap_sort(arr, reverse=False):
     """
     >>> heap_sort([3,4,2,1])
@@ -175,29 +228,14 @@ def heap_sort(arr, reverse=False):
     for i in range(arr_len-1): #the last two(root and left son) is reversely sorted
         arr[0], arr[-1*i-1] = arr[-1*i-1], arr[0]
         sift_down(arr, 0, arr_len-i-2, oprt)
-    print arr
+    return arr
 
-
-def print_sort(sort_func, arr, reverse=False):
-    print "###", sort_func.__name__, " ###"
-    print ">> Before:", arr
-    st = time.time()
-    sort_func(arr, reverse)
-    print ">> After:", arr
-    print ">> Time Usage: %.5f, array size: %d" % ((time.time()-st), len(arr))
 
 
 if __name__=="__main__":
-    arr = random_arr(30)
-#    arr = [3,7,2,3,7,4,1,0,8,5,6]
+    func_list = [bubble_sort, select_sort, merge_sort, merge_sort_r, \
+                 shell_sort, insertion_sort, quick_sort, quick_sort_recur, heap_sort]
     reverse = False
-#    print_sort(bubble_sort, arr)
-#    print_sort(select_sort, arr)
-#    print_sort(merge_sort, arr)
-#    print_sort(shell_sort, arr)
-#    print_sort(insertion_sort, arr)
-#    print_sort(quick_sort_recur, arr, reverse)
-    print_sort(quick_sort, arr, reverse)
-#    print_sort(heap_sort, arr, reverse)
-    import doctest
-    doctest.testmod()
+    for func in func_list:
+        arr = random_arr(30)
+        func(arr, reverse)

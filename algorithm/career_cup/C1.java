@@ -30,6 +30,28 @@ public class C1{
         sb.append(src_str.charAt(src_str.length()-1));
         return sb.toString();
     }
+
+    public String c1_3(String src_str){
+        if(src_str==null || len(src_str)==0) return src_str;
+        StringBuffer sb = new StringBuffer("");
+        boolean is_find = false;
+        char ch;
+        int str_len = src_str.length();
+        for(int i=0, j=0; i<str_len; ++i){
+            ch = src_str.charAt(i);
+            is_find = false;
+            for(j=sb.length()-1; j>=0; --j){
+                if(sb.charAt(j) == ch){
+                    is_find = true;
+                    break;
+                }
+            }
+            if(!is_find){
+                sb.append(ch);
+            }
+        }
+        return sb.toString();
+    }
     
     public static void main(String args[]){
         C1 c1 = new C1();
@@ -38,5 +60,10 @@ public class C1{
         System.out.println(str1+" has all unique characters? "+c1.c1_1(str1));
         System.out.println(str2+" has all unique characters? "+c1.c1_1(str2));
         System.out.println("Origin String:" + str3 + "\nAfter reversing:" + c1.c1_2(str3));
+        
+        String[] c1_3_testcase = {"abcbca", null, "a", "", "ab"};
+        for(String test_str : c1_3_testcase){
+            System.out.println("Test String:" + test_str + "-->" + c1.c1_3(test_str));
+        }
     }
 }

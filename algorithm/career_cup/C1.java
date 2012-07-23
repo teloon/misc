@@ -23,7 +23,7 @@ public class C1{
     }
 
     public String c1_2(String src_str){
-        StringBuffer sb = "";
+        StringBuffer sb = new StringBuffer("");
         for(int i=src_str.length()-2; i>=0; --i){
             sb.append(src_str.charAt(i));
         }
@@ -34,9 +34,9 @@ public class C1{
     public static void main(String args[]){
         C1 c1 = new C1();
         boolean result;
-        String str1="abcdef", str2="abbcde";
+        String str1="abcdef", str2="abbcde", str3="abcdef\0";
         System.out.println(str1+" has all unique characters? "+c1.c1_1(str1));
         System.out.println(str2+" has all unique characters? "+c1.c1_1(str2));
-        System.out.println("Origin String:" + str1 + "\nAfter reversing:" + c1.c1_2(str1));
+        System.out.println("Origin String:" + str3 + "\nAfter reversing:" + c1.c1_2(str3));
     }
 }

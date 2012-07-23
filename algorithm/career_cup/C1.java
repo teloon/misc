@@ -53,6 +53,26 @@ public class C1{
         return sb.toString();
     }
     
+    public boolean c1_4(String str1, String str2){
+        if(str1 == null || str2 == null || str1.length()==0 || str2.length()==0) return false;
+        if(str1.length() != str2.length()) return false;
+        int[] hit_map = new int[256];
+        for(int cnt : hit_map) cnt = 0;
+        for(int i=str1.length()-1; i>=0; --i){
+            ++hit_map[str1.charAt(i)];
+        }
+        for(int i=str2.length-1; i>=0; --i){
+            if(hit_map[str2.charAt(i)] <= 0) return false;
+            else{
+                --hit_map[str2.charAt(i)];
+            }
+        }
+        for(int i=0; i<256; ++i){
+            if(hit_map[i] != 0) return false;
+        }
+        return true;
+    }
+
     public static void main(String args[]){
         C1 c1 = new C1();
         boolean result;
@@ -72,5 +92,12 @@ public class C1{
         }
 
         System.out.println("###Testing c1_4");
+        String[] c1_4_testcase1 = {"dog", "an apple", "fuck the hats", "", null};
+        String[] c1_4_testcase2= {"god", "apple na", "what the fuck", "", null};
+        for(int i=c1_4_testcase1.length()-1; i>=0; --i){
+            System.out.format("Are %s and %s anagrams? %b\n", \
+                                c1_4_testcase1[i], c1_4_testcase2[i], \
+                                c1.c1_4(c1_4_testcase1[i], c1_4_testcase2[i]));
+        }
     }
 }

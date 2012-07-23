@@ -61,7 +61,7 @@ public class C1{
         for(int i=str1.length()-1; i>=0; --i){
             ++hit_map[str1.charAt(i)];
         }
-        for(int i=str2.length-1; i>=0; --i){
+        for(int i=str2.length()-1; i>=0; --i){
             if(hit_map[str2.charAt(i)] <= 0) return false;
             else{
                 --hit_map[str2.charAt(i)];
@@ -94,9 +94,9 @@ public class C1{
         System.out.println("###Testing c1_4");
         String[] c1_4_testcase1 = {"dog", "an apple", "fuck the hats", "", null};
         String[] c1_4_testcase2= {"god", "apple na", "what the fuck", "", null};
-        for(int i=c1_4_testcase1.length()-1; i>=0; --i){
-            System.out.format("Are %s and %s anagrams? %b\n", \
-                                c1_4_testcase1[i], c1_4_testcase2[i], \
+        for(int i=c1_4_testcase1.length-1; i>=0; --i){
+            System.out.format("Are \"%s\" and \"%s\" anagrams? %b\n", 
+                                c1_4_testcase1[i], c1_4_testcase2[i], 
                                 c1.c1_4(c1_4_testcase1[i], c1_4_testcase2[i]));
         }
     }

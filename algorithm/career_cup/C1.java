@@ -32,7 +32,7 @@ public class C1{
     }
 
     public String c1_3(String src_str){
-        if(src_str==null || len(src_str)==0) return src_str;
+        if(src_str==null || src_str.length()==0) return src_str;
         StringBuffer sb = new StringBuffer("");
         boolean is_find = false;
         char ch;
@@ -57,13 +57,20 @@ public class C1{
         C1 c1 = new C1();
         boolean result;
         String str1="abcdef", str2="abbcde", str3="abcdef\0";
+
+        System.out.println("###Testing c1_1");
         System.out.println(str1+" has all unique characters? "+c1.c1_1(str1));
         System.out.println(str2+" has all unique characters? "+c1.c1_1(str2));
+
+        System.out.println("###Testing c1_2");
         System.out.println("Origin String:" + str3 + "\nAfter reversing:" + c1.c1_2(str3));
         
+        System.out.println("###Testing c1_3");
         String[] c1_3_testcase = {"abcbca", null, "a", "", "ab"};
         for(String test_str : c1_3_testcase){
             System.out.println("Test String:" + test_str + "-->" + c1.c1_3(test_str));
         }
+
+        System.out.println("###Testing c1_4");
     }
 }

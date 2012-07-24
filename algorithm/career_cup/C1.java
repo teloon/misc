@@ -76,11 +76,12 @@ public class C1{
     public String c1_5(String src){
         StringBuffer sb = new StringBuffer("");
         for(int i=src.length()-1; i>=0; --i){
-            if(src.charAt(i) == " ")
+            if(src.charAt(i) == ' ')
                 sb.append("%20");
             else
                 sb.append(src.charAt(i));
         }
+        return sb.toString();
     }
 
     public static void main(String args[]){

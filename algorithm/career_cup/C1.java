@@ -73,6 +73,16 @@ public class C1{
         return true;
     }
 
+    public String c1_5(String src){
+        StringBuffer sb = new StringBuffer("");
+        for(int i=src.length()-1; i>=0; --i){
+            if(src.charAt(i) == " ")
+                sb.append("%20");
+            else
+                sb.append(src.charAt(i));
+        }
+    }
+
     public static void main(String args[]){
         C1 c1 = new C1();
         boolean result;
@@ -99,5 +109,9 @@ public class C1{
                                 c1_4_testcase1[i], c1_4_testcase2[i], 
                                 c1.c1_4(c1_4_testcase1[i], c1_4_testcase2[i]));
         }
+
+        System.out.println("###Testing c1_5");
+        String c1_5_testcase = "abc 123 hah";
+        System.out.format("Origin String:%s\tResult String:%s\n", c1_5_testcase, c1.c1_5(c1_5_testcase));
     }
 }

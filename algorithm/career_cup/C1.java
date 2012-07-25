@@ -84,6 +84,22 @@ public class C1{
         return sb.toString();
     }
 
+    public void c1_6(byte[][] image, int dim){
+        int st=0, rnd=0, i=0, curr_x, curr_y;
+        byte temp;
+        while((rnd+1)*2 <= dim){
+            curr_x = rnd;
+            for(curr_y=rnd; curr_y<dim-rnd-1; ++curr_y){
+                temp = image[curr_x][curr_y];
+                image[curr_x][curr_y] = image[dim-1-curr_y][curr_x];
+                image[dim-1-curr_y][curr_x] = image[dim-1-curr_x][dim-1-curr_y];
+                image[dim-1-curr_x][dim-1-curr_y] = image[curr_y][dim-1-curr_x];
+                image[curr_y][dim-1-curr_x] = temp;
+            }
+            ++rnd;
+        }
+    }
+
     public static void main(String args[]){
         C1 c1 = new C1();
         boolean result;
@@ -114,5 +130,7 @@ public class C1{
         System.out.println("###Testing c1_5");
         String c1_5_testcase = "abc 123 hah";
         System.out.format("Origin String:%s\tResult String:%s\n", c1_5_testcase, c1.c1_5(c1_5_testcase));
+
+        System.out.println("###Testing c1_6");
     }
 }

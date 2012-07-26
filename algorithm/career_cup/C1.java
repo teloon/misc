@@ -100,6 +100,35 @@ public class C1{
         }
     }
 
+    public void c1_7(int[][] mat, int M, int N){
+        ArrayList<Integer> row_al = new ArrayList<Integer>();
+        ArrayList<Integer> col_al = new ArrayList<Integer>();
+        System.out.println("Initial Matrix:")
+        for(int i=0; i<M; ++i)
+            for(int j=0; j<N; ++j){
+                System.out.print(mat[i][j]+ " ");
+                if(mat[i][j] == 0){
+                    row_al.append(i);
+                    col_al.append(j);
+                }
+            System.out.println();
+            }
+        for(int row : row_al)
+            for(int col=0; col<N; ++col)
+                mat[row][col] = 0;
+        for(int col : col_al)
+            for(int row=0; row<M; ++row)
+                mat[row][col] = 0;
+        System.out.println("Final Matrix:")
+        for(int i=0; i<M; ++i){
+            for(int j=0; j<N; ++j){
+                System.out.print(mat[i][j]+ " ");
+            }
+            System.out.println();
+        }
+        
+    }
+
     public static void main(String args[]){
         C1 c1 = new C1();
         boolean result;
@@ -131,6 +160,16 @@ public class C1{
         String c1_5_testcase = "abc 123 hah";
         System.out.format("Origin String:%s\tResult String:%s\n", c1_5_testcase, c1.c1_5(c1_5_testcase));
 
-        System.out.println("###Testing c1_6");
+        System.out.println("###Testing c1_7");
+        int M = 5;
+        int N = 6;
+        int[][] mat = new int[M][N];
+        for(int i=0,j=0; i<M ; ++i)
+            for(j=0; j<N; ++j)
+                mat[i][j] = 1;
+        mat[2][3] = 0;
+        mat[2][4] = 0;
+        mat[1][3] = 0;
+        c1.c1_7(mat, M, N);
     }
 }

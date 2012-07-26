@@ -101,7 +101,9 @@ public class C1{
         }
     }
 
-    public void c1_7(int[][] mat, int M, int N){
+    public void c1_7(int[][] mat){
+        int M = mat.length;
+        int N = mat[0].length;
         ArrayList<Integer> row_al = new ArrayList<Integer>();
         ArrayList<Integer> col_al = new ArrayList<Integer>();
         System.out.println("Initial Matrix:");
@@ -172,6 +174,6 @@ public class C1{
         mat[2][3] = 0;
         mat[2][4] = 0;
         mat[1][3] = 0;
-        c1.c1_7(mat, M, N);
+        c1.c1_7(mat);
     }
 }

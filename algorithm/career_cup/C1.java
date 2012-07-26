@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.ArrayList;
 
 public class C1{
 
@@ -103,23 +104,24 @@ public class C1{
     public void c1_7(int[][] mat, int M, int N){
         ArrayList<Integer> row_al = new ArrayList<Integer>();
         ArrayList<Integer> col_al = new ArrayList<Integer>();
-        System.out.println("Initial Matrix:")
-        for(int i=0; i<M; ++i)
+        System.out.println("Initial Matrix:");
+        for(int i=0; i<M; ++i){
             for(int j=0; j<N; ++j){
                 System.out.print(mat[i][j]+ " ");
                 if(mat[i][j] == 0){
-                    row_al.append(i);
-                    col_al.append(j);
+                    row_al.add(i);
+                    col_al.add(j);
                 }
-            System.out.println();
             }
+            System.out.println();
+        }
         for(int row : row_al)
             for(int col=0; col<N; ++col)
                 mat[row][col] = 0;
         for(int col : col_al)
             for(int row=0; row<M; ++row)
                 mat[row][col] = 0;
-        System.out.println("Final Matrix:")
+        System.out.println("Final Matrix:");
         for(int i=0; i<M; ++i){
             for(int j=0; j<N; ++j){
                 System.out.print(mat[i][j]+ " ");

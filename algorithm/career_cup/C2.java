@@ -35,7 +35,7 @@ public class C2{
         System.out.println();
     }
 
-    public void p2(Node head){
+    public void p1(Node head){
         if(head == null) return;
         Node curr_node = head.next;
         Node seen_node = head;
@@ -62,7 +62,7 @@ public class C2{
         C2 c2 = new C2();
         Node splList = c2.genLinkedList(15, 15);
         c2.printList(splList);
-        c2.p2(splList);
+        c2.p1(splList);
         c2.printList(splList);
     }
 }

@@ -74,6 +74,17 @@ public class C2{
         return objNode;
     }
 
+    public void p3(Node midNode){
+        Node currNode = midNode;
+        Node nextNode;
+        while(currNode != null){
+            nextNode = currNode.next;
+            currNode.data = nextNode.data;
+            currNode.next = nextNode.next;
+            currNode = nextNode;
+        }
+    }
+
     public static void main(String[] args){
         C2 c2 = new C2();
         Random ranObj = new Random();
@@ -95,5 +106,16 @@ public class C2{
             System.out.format("%dth to last element: %d\n", last_idx, p2Ret.data);
         else
             System.out.format("%dth to last element: None\n", last_idx);
+
+        System.out.println("\n## Test p3");
+        System.out.println("Initial List:");
+        c2.printList(splList);
+        splList = c2.genLinkedList(15, 15);
+        Node midNode = splList;
+        for(int i=0; i<7; ++i) midNode = midNode.next;
+        c2.p3(midNode);
+        System.out.println("Result List:");
+        c2.printList(splList);
+
     }
 }

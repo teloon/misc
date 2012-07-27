@@ -27,14 +27,15 @@ public class C2{
 
     public void printList(Node head){
         Node curr = head;
-        Systen.out.print("head")
+        System.out.print("head");
         while(curr.next != null){
             System.out.format("-->%d", curr.next.data);
+            curr = curr.next;
         }
     }
 
     public void p2(Node head){
-        HashSet<int> seen_val_set = HashSet<int>();
+        HashSet<Integer> seen_val_set = new HashSet<Integer>();
         Node curr = head;
         while(curr.next != null){
             if(seen_val_set.contains(curr.next.data)){
@@ -45,10 +46,11 @@ public class C2{
             }else{
                 seen_val_set.add(curr.next.data);
             }
+            curr = curr.next;
         }
     }
 
-    pubic static void main(String[] args){
+    public static void main(String[] args){
         C2 c2 = new C2();
         Node splList = c2.genLinkedList(10, 20);
         c2.printList(splList);

@@ -55,7 +55,7 @@ public class C2{
                 last_seen_node = curr_node;
             }
             curr_node = curr_node.next;
-        }
+            }
     }
 
     public Node p2(Node head, int n){
@@ -87,10 +87,13 @@ public class C2{
 
         System.out.println("\n## Test p2");
         splList = c2.genLinkedList(15, 15);
-        int last_idx = ranObj.nextInt(15);
+        int last_idx = ranObj.nextInt(20);
         Node p2Ret = c2.p2(splList, last_idx);
         System.out.println("Initial List:");
         c2.printList(splList);
-        System.out.format("%dth to last element: %d\n", last_idx, p2Ret.data);
+        if(p2Ret != null)
+            System.out.format("%dth to last element: %d\n", last_idx, p2Ret.data);
+        else
+            System.out.format("%dth to last element: None\n", last_idx);
     }
 }

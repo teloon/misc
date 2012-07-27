@@ -38,19 +38,16 @@ public class C2{
     public void p2(Node head){
         HashSet<Integer> seen_val_set = new HashSet<Integer>();
         if(head == null) return;
-        Node curr = head;
-        while(curr.next != null){
-            if(seen_val_set.contains(curr.next.data)){
-                if(curr.next.next == null){
-                    curr.next = null;
-                    break;
-                }
-                else
-                    curr.next = curr.next.next;
+        Node curr = head.next;
+        Node prev = null;
+        while(curr != null){
+            if(seen_val_set.contains(curr.data)){
+                prev.next = curr.next;
             }else{
-                seen_val_set.add(curr.next.data);
-                curr = curr.next;
+                prev = curr;
+                seen_val_set.add(curr.data);
             }
+            curr = curr.next;
         }
     }
 

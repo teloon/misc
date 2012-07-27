@@ -36,18 +36,24 @@ public class C2{
     }
 
     public void p2(Node head){
-        HashSet<Integer> seen_val_set = new HashSet<Integer>();
         if(head == null) return;
-        Node curr = head.next;
-        Node prev = null;
-        while(curr != null){
-            if(seen_val_set.contains(curr.data)){
-                prev.next = curr.next;
-            }else{
-                prev = curr;
-                seen_val_set.add(curr.data);
+        Node curr_node = head.next;
+        Node seen_node = head;
+        Node last_seen_node = head;
+        boolean is_dup = false;
+        while(curr_node != null){
+            for(seen_node=head.next; seen_node!=curr_node; seen_node=seen_node.next){
+                if(seen_node.data == curr_node.data){
+                    is_dup = true;
+                    break;
+                }
             }
-            curr = curr.next;
+            if(is_dup){
+                last_seen_node.next = curr_node.next;
+            }else{
+                last_seen_node = curr_node;
+            }
+            curr_node = curr_node.next;
         }
     }
 

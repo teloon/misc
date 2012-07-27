@@ -58,11 +58,39 @@ public class C2{
         }
     }
 
+    public Node p2(Node head, int n){
+        if(head==null || n<=0) return null;
+        Node currNode = head.next;
+        Node objNode = head.next;
+        for( ; n>1; --n){ //n-1 moves
+            if(currNode == null)
+                return null;
+            currNode = currNode.next;
+        }
+        while(currNode.next!=null){
+            currNode = currNode.next;
+            objNode = objNode.next;
+        }
+        return objNode;
+    }
+
     public static void main(String[] args){
         C2 c2 = new C2();
+        Random ranObj = new Random();
+        System.out.println("## Test p1");
         Node splList = c2.genLinkedList(15, 15);
+        System.out.println("Initial List:");
         c2.printList(splList);
         c2.p1(splList);
+        System.out.println("Result List:");
         c2.printList(splList);
+
+        System.out.println("\n## Test p2");
+        splList = c2.genLinkedList(15, 15);
+        int last_idx = ranObj.nextInt(15);
+        Node p2Ret = c2.p2(splList, last_idx);
+        System.out.println("Initial List:");
+        c2.printList(splList);
+        System.out.format("%dth to last element: %d\n", last_idx, p2Ret.data);
     }
 }

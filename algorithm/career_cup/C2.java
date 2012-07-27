@@ -49,6 +49,7 @@ public class C2{
                 }
             }
             if(is_dup){
+                is_dup = false;
                 last_seen_node.next = curr_node.next;
             }else{
                 last_seen_node = curr_node;

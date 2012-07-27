@@ -32,27 +32,33 @@ public class C2{
             System.out.format("-->%d", curr.next.data);
             curr = curr.next;
         }
+        System.out.println();
     }
 
     public void p2(Node head){
         HashSet<Integer> seen_val_set = new HashSet<Integer>();
+        if(head == null) return;
         Node curr = head;
         while(curr.next != null){
             if(seen_val_set.contains(curr.next.data)){
-                if(curr.next.next == null)
+                if(curr.next.next == null){
+                    curr.next = null;
                     break;
+                }
                 else
                     curr.next = curr.next.next;
             }else{
                 seen_val_set.add(curr.next.data);
+                curr = curr.next;
             }
-            curr = curr.next;
         }
     }
 
     public static void main(String[] args){
         C2 c2 = new C2();
-        Node splList = c2.genLinkedList(10, 20);
+        Node splList = c2.genLinkedList(15, 15);
+        c2.printList(splList);
+        c2.p2(splList);
         c2.printList(splList);
     }
 }

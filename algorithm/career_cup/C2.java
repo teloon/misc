@@ -75,14 +75,16 @@ public class C2{
     }
 
     public void p3(Node midNode){
+		if(midNode == null) return;
         Node currNode = midNode;
-        Node nextNode;
-        while(currNode != null){
-            nextNode = currNode.next;
+		Node nextNode = currNode.next;
+        while(nextNode.next != null){
             currNode.data = nextNode.data;
-            currNode.next = nextNode.next;
-            currNode = nextNode;
+			currNode = nextNode;
+            nextNode = nextNode.next;
         }
+		currNode.data = nextNode.data;
+		currNode.next = null;
     }
 
     public static void main(String[] args){
@@ -108,13 +110,13 @@ public class C2{
             System.out.format("%dth to last element: None\n", last_idx);
 
         System.out.println("\n## Test p3");
+		splList = c2.genLinkedList(15, 15);
         System.out.println("Initial List:");
         c2.printList(splList);
-        splList = c2.genLinkedList(15, 15);
         Node midNode = splList;
         for(int i=0; i<7; ++i) midNode = midNode.next;
         c2.p3(midNode);
-        System.out.println("Result List:");
+        System.out.format("After remove midNode @pos 7, Result List:\n");
         c2.printList(splList);
 
     }

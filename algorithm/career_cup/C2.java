@@ -75,16 +75,9 @@ public class C2{
     }
 
     public void p3(Node midNode){
-		if(midNode == null) return;
-        Node currNode = midNode;
-		Node nextNode = currNode.next;
-        while(nextNode.next != null){
-            currNode.data = nextNode.data;
-			currNode = nextNode;
-            nextNode = nextNode.next;
-        }
-		currNode.data = nextNode.data;
-		currNode.next = null;
+		if(midNode == null || midNode.next == null) return;
+		midNode.data = midNode.next.data;
+		midNode.next = midNode.next.next;
     }
 
     public static void main(String[] args){

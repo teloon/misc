@@ -80,6 +80,26 @@ public class C2{
 		midNode.next = midNode.next.next;
     }
 
+    public Node p4(Node head1, Node head2){
+        if(head1==null || head2==null) return null;
+        Node resHeadNode = new Node(-1);
+        Node node1 = head1.next;
+        Node node2 = head2.next;
+        Node resNode = resHeadNode;
+        int carry=0, addRes=0;
+        while(node1!=null && node2!=null){
+            addRes = node1.data + node2.data + carry;
+            resNode.next = new Node(addRes%10);
+            resNode = resNode.next;
+            node1 = node1.next;
+            node2 = node2.next;
+            carry = addRes/10;
+        }
+        if(node1!=null || node2!=null) return null;
+        return resHeadNode;
+
+    }
+
     public static void main(String[] args){
         C2 c2 = new C2();
         Random ranObj = new Random();
@@ -111,6 +131,15 @@ public class C2{
         c2.p3(midNode);
         System.out.format("After remove midNode @pos 7, Result List:\n");
         c2.printList(splList);
-
+        
+        System.out.println("\n## Test p4");
+		Node splList1 = c2.genLinkedList(15, 15);
+		Node splList2 = c2.genLinkedList(15, 15);
+        System.out.println("Initial List:");
+        c2.printList(splList1);
+        c2.printList(splList2);
+        Node resList = c2.p4(splList1, splList2);
+        System.out.format("Add result List:\n");
+        c2.printList(resList);
     }
 }

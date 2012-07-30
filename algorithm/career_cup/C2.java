@@ -25,12 +25,46 @@ public class C2{
         return head;
     }
 
+    public Node genCirLinkedList(int length, int max){
+        Node head = new Node(-1);
+        Node stLoopNode, currNode=head;
+        Random ranObj = new Random();
+        int midPos = ranObj.nextInt(length-1);
+        for(int i=0; i<length; ++i){
+            currNode.next = new Node(ranObj.nextInt(max));
+            currNode = currNode.next;
+            if(i == midPos){
+                stLoopNode = currNode;
+            }
+        }
+        currNode.next = stLoopNode;
+        return head;
+    }
+
     public void printList(Node head){
         Node curr = head;
         System.out.print("head");
         while(curr.next != null){
             System.out.format("-->%d", curr.next.data);
             curr = curr.next;
+        }
+        System.out.println();
+    }
+
+    public void printCirList(Node head, int length){
+        if(head == null){
+            System.out.println("head is null");
+            return;
+        }
+        if(length <= 0){
+            System.out.println("length <= 0");
+            return;
+        }
+        Node currNode = head.next;
+        System.out.print("head");
+        for(int i=0; i<length+1; ++i){
+            System.out.print(" --> " + currNode);
+            currNode = currNode.next;
         }
         System.out.println();
     }
@@ -166,7 +200,9 @@ public class C2{
         c2.printList(resList);
 
         System.out.println("\n## Test p5");
-		splList = c2.genLinkedList(15, 15);
+		splList = c2.genCirLinkedList(15, 15);
+        System.out.println("Initial List:");
+        c2.printCirList(splList, 15);
         Node stCirNode = c2.p5(splList);
         if(stCirNode == null)
             System.out.println("## No loop!");

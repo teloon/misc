@@ -27,7 +27,7 @@ public class C2{
 
     public Node genCirLinkedList(int length, int max){
         Node head = new Node(-1);
-        Node stLoopNode, currNode=head;
+        Node stLoopNode=null, currNode=head;
         Random ranObj = new Random();
         int midPos = ranObj.nextInt(length-1);
         for(int i=0; i<length; ++i){
@@ -37,6 +37,7 @@ public class C2{
                 stLoopNode = currNode;
             }
         }
+        System.out.println("## Generate circular Linked List, Loop begins @ pos: " + (midPos+1));
         currNode.next = stLoopNode;
         return head;
     }
@@ -63,7 +64,7 @@ public class C2{
         Node currNode = head.next;
         System.out.print("head");
         for(int i=0; i<length+1; ++i){
-            System.out.print(" --> " + currNode);
+            System.out.print(" --> " + currNode + "(" + currNode.data + ")");
             currNode = currNode.next;
         }
         System.out.println();
@@ -101,7 +102,7 @@ public class C2{
                 return null;
             currNode = currNode.next;
         }
-        while(currNode.next!=null){
+        while(currNode!=null && currNode.next!=null){
             currNode = currNode.next;
             objNode = objNode.next;
         }
@@ -137,14 +138,12 @@ public class C2{
     public Node p5(Node head){
         if(head == null) return null;
         Node node1=head, node2=head;
-        while(node2!=null && node1!=node2){
+        do{
             node1 = node1.next;
             node2 = node2.next;
             if(node2 != null)
                 node2 = node2.next;
-            else
-                break;
-        }
+        }while(node2!=null && node1!=node2);
         if(node2 == null) return null;
         node1 = head;
         int cnt = 0;
@@ -153,7 +152,7 @@ public class C2{
             node2 = node2.next;
             ++cnt;
         }
-        System.out.println("## the circul starts @ pos: "+ cnt);
+        System.out.println("## the loop starts @ pos: "+ cnt);
         return node1;
     }
 

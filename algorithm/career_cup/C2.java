@@ -100,6 +100,29 @@ public class C2{
 
     }
 
+    public Node p5(Node head){
+        if(head == null) return null;
+        Node node1=head, node2=head;
+        while(node2!=null && node1!=node2){
+            node1 = node1.next;
+            node2 = node2.next;
+            if(node2 != null)
+                node2 = node2.next;
+            else
+                break;
+        }
+        if(node2 == null) return null;
+        node1 = head;
+        int cnt = 0;
+        while(node1 != node2){
+            node1 = node1.next;
+            node2 = node2.next;
+            ++cnt;
+        }
+        System.out.println("## the circul starts @ pos: "+ cnt);
+        return node1;
+    }
+
     public static void main(String[] args){
         C2 c2 = new C2();
         Random ranObj = new Random();
@@ -141,5 +164,13 @@ public class C2{
         Node resList = c2.p4(splList1, splList2);
         System.out.format("Add result List:\n");
         c2.printList(resList);
+
+        System.out.println("\n## Test p5");
+		splList = c2.genLinkedList(15, 15);
+        Node stCirNode = c2.p5(splList);
+        if(stCirNode == null)
+            System.out.println("## No loop!");
+        else
+            System.out.println("## data of the beginning node of the loop: " + stCirNode.data);
     }
 }

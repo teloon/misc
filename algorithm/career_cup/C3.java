@@ -2,7 +2,7 @@
 
 public class C3{
     public static void main(String[] args){
-        Stack stk = new Stack(5);
+        Stack stk = new Stack();
         stk.push(1);
         stk.pop();
         stk.pop();
@@ -18,35 +18,36 @@ public class C3{
 }
 
 class Stack{
-    private int curr_idx;
-    private int capacity;
-    private int[] arr;
+    private int size;
+    private Node top;
 
-    public Stack(int capacity){
-        this.capacity = capacity;
-        this.arr = new int[capacity];
-        this.curr_idx = -1;
+    public Stack(){
+        top = new Node(-1);
+        size = 0;
     }
 
     public boolean push(int data){
-        if(curr_idx+1 >= capacity) return false;
-        ++curr_idx;
-        arr[curr_idx] = data;
+        Node node = new Node(data);
+        node.next = top;
+        top = node;
+        ++size;
         return true;
     }
 
     public int pop(){
-        if(curr_idx < 0) return -1;
-        --curr_idx;
-        return arr[curr_idx+1];
+        if(size <= 0) return -1;
+        int ret = top.data;
+        top = top.next;
+        --size;
+        return ret;
     }
 
     public int top(){
-        if(curr_idx < 0) return -1;
-        return arr[curr_idx];
+        if(size <= 0) return -1;
+        return top.data;
     }
 
     public int size(){
-        return curr_idx+1;
+        return size;
     }
 }
